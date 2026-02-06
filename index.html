@@ -5,78 +5,142 @@
 <title>Valentine Question</title>
 <style>
     body {
-        text-align:center;
+        margin: 0;
+        padding: 0;
         font-family: 'Arial', sans-serif;
-        background: #ffe6f2; /* soft pink */
-        margin:0;
-        padding:0;
-        overflow:hidden;
+        background: #ff99cc; /* soft pink */
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
     }
+
+    .box {
+        background: white;
+        border-radius: 25px;
+        padding: 50px 70px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        text-align: center;
+        max-width: 400px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+    }
+
     .top-emoji {
         font-size: 60px;
-        margin-top: 30px;
+        margin-bottom: 20px;
     }
+
     h1 {
-        font-size: 40px;
-        margin: 50px 20px;
+        font-size: 28px;
+        margin: 20px 0;
         color: #ff3399;
     }
+
     button {
-        padding:15px 35px;
+        padding: 15px 35px;
         font-size: 20px;
-        margin: 20px;
-        border:none;
+        margin: 15px;
+        border: none;
         border-radius: 12px;
-        cursor:pointer;
+        cursor: pointer;
         transition: transform 0.2s;
+        z-index: 10;
+        position: relative;
     }
-    #yesBtn {
-        background: #ff4da6;
-        color:white;
+
+    #yesBtn, #noBtn {
+        background: #ff4da6; /* bright pink */
+        color: white;
     }
-    #yesBtn:hover {
+
+    #yesBtn:hover, #noBtn:hover {
         transform: scale(1.1);
     }
+
     #noBtn {
-        position:absolute;
-        background: #cccccc;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    .floating-bg-emoji {
+        position: absolute;
+        font-size: 50px;
+        animation: floatBg 6s infinite;
+    }
+
+    @keyframes floatBg {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        50% { transform: translateY(-200px) rotate(180deg); opacity: 0.7; }
+        100% { transform: translateY(0) rotate(360deg); opacity: 1; }
     }
 </style>
 </head>
 <body>
 
-<div class="top-emoji">😺❤️</div>
-<h1>Will you be my Valentine? 💌</h1>
+<div class="box">
+    <div class="top-emoji">😺❤️</div>
+    <h1>Will you be my Valentine? 💌</h1>
+    <button id="yesBtn" onclick="yesClicked()">Yes</button>
+</div>
 
-<button id="yesBtn" onclick="yesClicked()">Yes</button>
 <button id="noBtn">No</button>
 
+<!-- floating emojis -->
+<div class="floating-bg-emoji" style="left:15%; top:70%;">💖</div>
+<div class="floating-bg-emoji" style="left:75%; top:80%;">🌸</div>
+
 <script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const box = document.querySelector(".box");
+
+// Go to thank you page
 function yesClicked(){
     window.location.href = "thankyou.html";
 }
 
-const noBtn = document.getElementById("noBtn");
-
-// Move the No button when mouse comes close
-document.addEventListener("mousemove", function(e){
-    let rect = noBtn.getBoundingClientRect();
-    let distance = Math.hypot(
-        e.clientX - (rect.left + rect.width/2),
-        e.clientY - (rect.top + rect.height/2)
-    );
-    if(distance < 150){ // very sensitive
-        moveNo();
-    }
-});
-noBtn.addEventListener("click", moveNo);
-
+// Move No button outside the box randomly
 function moveNo(){
-    let x = Math.random() * (window.innerWidth - 120);
-    let y = Math.random() * (window.innerHeight - 60);
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const boxRect = box.getBoundingClientRect();
+    const margin = 10; // distance from edges
+
+    let x, y;
+    do {
+        x = Math.random() * (window.innerWidth - btnWidth - margin);
+        y = Math.random() * (window.innerHeight - btnHeight - margin);
+    } while (
+        x + btnWidth > boxRect.left && x < boxRect.right &&
+        y + btnHeight > boxRect.top && y < boxRect.bottom
+    ); // repeat until button is outside box
+
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 }
+
+// Move when mouse gets close
+document.addEventListener("mousemove", function(e){
+    const rect = noBtn.getBoundingClientRect();
+    const distance = Math.hypot(
+        e.clientX - (rect.left + rect.width/2),
+        e.clientY - (rect.top + rect.height/2)
+    );
+    if(distance < 150){
+        moveNo();
+    }
+});
+
+// Also move if clicked
+noBtn.addEventListener("click", moveNo);
+
+// Initial position
+window.onload = moveNo;
 </script>
 </body>
 </html>

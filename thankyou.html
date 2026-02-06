@@ -5,46 +5,80 @@
 <title>She Said Yes!</title>
 <style>
     body {
-        text-align:center;
+        margin: 0;
+        padding: 0;
         font-family: 'Arial', sans-serif;
-        background: #fff0f5; /* soft lavender */
-        margin:0;
-        padding:0;
+        background: #ff99cc; /* soft pink background */
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
     }
+
+    .box {
+        background: white;
+        border-radius: 25px;
+        padding: 50px 70px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        text-align: center;
+        max-width: 90%;
+        position: relative;
+        z-index: 10;
+    }
+
     .emoji-bar {
         font-size: 50px;
         margin: 20px 0;
     }
-    .box {
-        display:inline-block;
-        padding:50px 70px;
-        background: #ffe6f2;
-        border-radius: 25px;
-        border: 3px solid #ff4da6;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        margin-top:50px;
+
+    .floating-emoji {
+        font-size: 30px;
+        margin: 0 5px;
+        display: inline-block;
+        animation: floatBox 4s ease-in-out infinite;
     }
+
+    @keyframes floatBox {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+        100% { transform: translateY(0px); }
+    }
+
     h1 {
         color: #ff3399;
-        font-size:45px;
-        margin: 0;
+        font-size: 40px;
+        margin: 20px 0;
     }
+
     h2 {
         color: #ff1a75;
-        margin-top:20px;
+        margin-top: 20px;
     }
 </style>
 </head>
 <body>
 
-<div class="emoji-bar">💖🌸🌺💗💌</div>
-
 <div class="box">
+    <div class="emoji-bar">
+        <span class="floating-emoji">💖</span>
+        <span class="floating-emoji">🌸</span>
+        <span class="floating-emoji">🌺</span>
+        <span class="floating-emoji">💗</span>
+        <span class="floating-emoji">💌</span>
+    </div>
+
     <h1>Yah! She said Yes! 😻</h1>
     <h2>Happy Valentine's Day 💕</h2>
-</div>
 
-<div class="emoji-bar">💘🌹💝💐❤️</div>
+    <div class="emoji-bar">
+        <span class="floating-emoji">💘</span>
+        <span class="floating-emoji">🌹</span>
+        <span class="floating-emoji">💝</span>
+        <span class="floating-emoji">💐</span>
+        <span class="floating-emoji">❤️</span>
+    </div>
+</div>
 
 </body>
 </html>
