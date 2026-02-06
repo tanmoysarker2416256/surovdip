@@ -1,73 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <title>Valentine Question</title>
-
 <style>
-    body{
+    body {
         text-align:center;
-        font-family: Arial;
-        margin-top:100px;
+        font-family: 'Arial', sans-serif;
+        background: #ffe6f2; /* soft pink */
+        margin:0;
+        padding:0;
         overflow:hidden;
     }
-
-    button{
-        padding:12px 25px;
-        font-size:18px;
-        margin:10px;
-        cursor:pointer;
+    .top-emoji {
+        font-size: 60px;
+        margin-top: 30px;
     }
-
-    #noBtn{
+    h1 {
+        font-size: 40px;
+        margin: 50px 20px;
+        color: #ff3399;
+    }
+    button {
+        padding:15px 35px;
+        font-size: 20px;
+        margin: 20px;
+        border:none;
+        border-radius: 12px;
+        cursor:pointer;
+        transition: transform 0.2s;
+    }
+    #yesBtn {
+        background: #ff4da6;
+        color:white;
+    }
+    #yesBtn:hover {
+        transform: scale(1.1);
+    }
+    #noBtn {
         position:absolute;
+        background: #cccccc;
     }
 </style>
 </head>
-
 <body>
 
-<h1>Will you be my Valentine? ❤️</h1>
+<div class="top-emoji">😺❤️</div>
+<h1>Will you be my Valentine? 💌</h1>
 
-<button onclick="yesClicked()">Yes</button>
+<button id="yesBtn" onclick="yesClicked()">Yes</button>
 <button id="noBtn">No</button>
 
 <script>
-
 function yesClicked(){
     window.location.href = "thankyou.html";
 }
 
 const noBtn = document.getElementById("noBtn");
 
-// Function to teleport button
-function moveNo(){
-    let x = Math.random() * (window.innerWidth - 100);
-    let y = Math.random() * (window.innerHeight - 50);
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-}
-
-// Trigger movement when mouse gets close
+// Move the No button when mouse comes close
 document.addEventListener("mousemove", function(e){
-
     let rect = noBtn.getBoundingClientRect();
-
     let distance = Math.hypot(
         e.clientX - (rect.left + rect.width/2),
         e.clientY - (rect.top + rect.height/2)
     );
-
-    // If mouse comes near → escape instantly
-    if(distance < 120){
+    if(distance < 150){ // very sensitive
         moveNo();
     }
 });
-
-// Also move if someone somehow clicks
 noBtn.addEventListener("click", moveNo);
 
+function moveNo(){
+    let x = Math.random() * (window.innerWidth - 120);
+    let y = Math.random() * (window.innerHeight - 60);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
 </script>
-
 </body>
 </html>
